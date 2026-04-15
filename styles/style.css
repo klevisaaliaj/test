@@ -1,0 +1,65 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.estate-navbar{
+background-color:#111;
+border-bottom:3px solid #c9a227;
+}
+
+.navbar-brand {
+  color: #d4af37 !important;
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.nav-link:hover {
+  color: #d4af37 !important;
+}
+
+.hero-section {
+  background-color: #1b263b;
+  color: white;
+  padding: 80px 0;
+}
+
+.property-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+}
+
+.property-card:hover {
+  border-color: #d4af37;
+}
+
+.card-img-top {
+  height: 220px;
+  object-fit: cover;
+}
+
+.card-body p {
+  margin-bottom: 8px;
+}
+
+footer {
+  margin-top: 20px;
+}
+.card{
+border-radius:10px;
+border:none;
+}
+
+.card:hover{
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+.navbar-nav .nav-link{
+color:white;
+font-weight:500;
+}
+
+.navbar-nav .nav-link:hover{
+color:#c9a227;
+}
