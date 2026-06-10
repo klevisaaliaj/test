@@ -1,0 +1,51 @@
+{% extends 'properties/base.html' %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 text-center">
+
+                    <h2 class="fw-bold mb-3">
+                        Delete Property
+                    </h2>
+
+                    <p class="text-muted">
+                        Are you sure you want to delete this property?
+                    </p>
+
+                    <h5 class="mb-4">
+                        {{ property.title }}
+                    </h5>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <button type="submit" class="btn btn-danger px-4">
+                            Yes, Delete
+                        </button>
+
+                        <a href="{% url 'details' property.id %}" class="btn btn-outline-dark px-4">
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

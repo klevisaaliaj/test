@@ -1,0 +1,123 @@
+{% extends 'properties/base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h1 class="fw-bold mb-5 text-center">
+        My Messages
+    </h1>
+
+    <h2 class="fw-bold mb-4">
+        Property Inquiries
+    </h2>
+
+    {% for inquiry in property_inquiries %}
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold">
+                    {{ inquiry.property.title }}
+                </h5>
+
+                <p class="mb-2">
+                    <strong>Your Message:</strong>
+                </p>
+
+                <p>
+                    {{ inquiry.message }}
+                </p>
+
+                {% if inquiry.is_answered %}
+
+                    <div class="alert alert-success mt-3">
+
+                        <strong>Admin Reply:</strong>
+
+                        <hr>
+
+                        {{ inquiry.admin_reply }}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="alert alert-warning mt-3">
+                        Waiting for admin response.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="alert alert-secondary">
+            No property inquiries yet.
+        </div>
+
+    {% endfor %}
+
+    <hr class="my-5">
+
+    <h2 class="fw-bold mb-4">
+        Contact Messages
+    </h2>
+
+    {% for message in contact_messages %}
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold">
+                    {{ message.subject }}
+                </h5>
+
+                <p class="mb-2">
+                    <strong>Your Message:</strong>
+                </p>
+
+                <p>
+                    {{ message.message }}
+                </p>
+
+                {% if message.is_answered %}
+
+                    <div class="alert alert-success mt-3">
+
+                        <strong>Admin Reply:</strong>
+
+                        <hr>
+
+                        {{ message.admin_reply }}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="alert alert-warning mt-3">
+                        Waiting for admin response.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="alert alert-secondary">
+            No contact messages yet.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

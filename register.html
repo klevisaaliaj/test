@@ -1,0 +1,100 @@
+{% extends 'properties/base.html' %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow p-4">
+
+                <h2 class="text-center mb-4">
+                    Create Account
+                </h2>
+
+                {% if form.errors %}
+
+                    <div class="alert alert-danger">
+
+                        {% for field in form %}
+
+                            {% for error in field.errors %}
+
+                                <p class="mb-1">
+                                    {{ error }}
+                                </p>
+
+                            {% endfor %}
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password1"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password2"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100">
+                        Register
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

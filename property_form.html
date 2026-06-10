@@ -1,0 +1,152 @@
+{% extends 'properties/base.html' %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2 class="fw-bold mb-4">
+                        {{ title }}
+                    </h2>
+
+                    <form method="POST" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        {% if form.errors %}
+
+                            <div class="alert alert-danger">
+                                Please correct the errors below.
+                            </div>
+
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            {{ form.title }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            {{ form.description }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">City</label>
+                            {{ form.city }}
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Property Type</label>
+                                {{ form.property_type }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Listing Type</label>
+                                {{ form.listing_type }}
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status</label>
+                                {{ form.status }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label d-block">Featured</label>
+                                <div class="form-check">
+                                    {{ form.featured }}
+                                    <label class="form-check-label">
+                                        Show on homepage
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Price</label>
+                                {{ form.price }}
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Size</label>
+                                {{ form.size }}
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Year Built</label>
+                                {{ form.year_built }}
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Floor</label>
+                                {{ form.floor }}
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Floors</label>
+                                {{ form.floors }}
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Rooms</label>
+                                {{ form.rooms }}
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Image</label>
+                            {{ form.image }}
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            {{ form.elevator }}
+                            <label class="form-check-label">Elevator</label>
+                        </div>
+
+                        <div class="mb-4 form-check">
+                            {{ form.parking }}
+                            <label class="form-check-label">Parking</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning px-4">
+                            Save Property
+                        </button>
+
+                        <a href="/properties/" class="btn btn-outline-dark px-4">
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
