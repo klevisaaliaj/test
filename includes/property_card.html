@@ -1,0 +1,126 @@
+<div class="col-lg-4 col-md-6 property-card-wrapper">
+
+    <div class="card h-100 shadow-sm border-0 property-card">
+
+        <img
+            src="{% if property.image %}{{ property.image.url }}{% else %}https://via.placeholder.com/600x400?text=No+Image{% endif %}"
+            class="card-img-top"
+            alt="{{ property.title }}"
+        >
+
+        <div class="card-body d-flex flex-column">
+
+            <h4 class="fw-bold mb-3">
+                {{ property.title }}
+            </h4>
+
+            <p class="mb-2">
+                <strong>Location:</strong>
+                {{ property.city }}
+            </p>
+
+            <p class="mb-2">
+                <strong>Category:</strong>
+
+                {% if property.property_type == "Apartment" %}
+                    <span class="badge bg-secondary">Apartment</span>
+                {% elif property.property_type == "Villa" %}
+                    <span class="badge bg-info text-dark">Villa</span>
+                {% else %}
+                    <span class="badge bg-light text-dark border">Office</span>
+                {% endif %}
+            </p>
+
+            {% if property.rooms %}
+                <p class="mb-2">
+                    <strong>Rooms:</strong>
+                    {{ property.rooms }}
+                </p>
+            {% endif %}
+
+            <p class="mb-2">
+                <strong>Size:</strong>
+                {{ property.size }} m²
+            </p>
+
+            <p class="mb-2">
+                <strong>Year Built:</strong>
+                {{ property.year_built }}
+            </p>
+
+            <p class="mb-2">
+                <strong>Elevator:</strong>
+                {% if property.elevator %}Yes{% else %}No{% endif %}
+            </p>
+
+            <p class="mb-2">
+                <strong>Parking:</strong>
+                {% if property.parking %}Yes{% else %}No{% endif %}
+            </p>
+
+            <p class="mb-2">
+                <strong>Status:</strong>
+
+                {% if property.status == "Available" %}
+                    <span class="badge bg-success">Available</span>
+                {% elif property.status == "Rented" %}
+                    <span class="badge bg-primary">Rented</span>
+                {% elif property.status == "Sold" %}
+                    <span class="badge bg-danger">Sold</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                {% endif %}
+            </p>
+
+            <p class="mb-3">
+                <strong>Listing:</strong>
+
+                {% if property.listing_type == "For Sale" %}
+                    <span class="badge bg-success">For Sale</span>
+                {% elif property.listing_type == "Monthly Rent" %}
+                    <span class="badge bg-primary">Monthly Rent</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">Daily Rent</span>
+                {% endif %}
+            </p>
+
+            <p class="text-muted mb-2">
+                Added by:
+                {{ property.owner.username|default:"Admin" }}
+            </p>
+
+            <p class="text-muted mb-3">
+                Published:
+                {{ property.created_at|date:"d M Y" }}
+            </p>
+
+            <h4 class="fw-bold mb-3">
+
+                €{{ property.price }}
+
+                {% if property.listing_type == "Monthly Rent" %}
+                    / month
+                {% endif %}
+
+                {% if property.listing_type == "Daily Rent" %}
+                    / day
+                {% endif %}
+
+            </h4>
+
+            <div class="mt-auto">
+
+                <a
+                    href="{% url 'details' property.id %}"
+                    class="btn btn-outline-dark"
+                >
+                    View Details
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

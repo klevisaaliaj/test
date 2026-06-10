@@ -1,0 +1,174 @@
+{% extends 'properties/base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h1 class="fw-bold text-center mb-2">
+        Admin Dashboard
+    </h1>
+
+    <p class="text-muted text-center mb-5">
+        Overview of platform activity and property performance.
+    </p>
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center h-100">
+                <div class="card-body p-4">
+                    <h1>🏠</h1>
+                    <h2 class="fw-bold">{{ total_properties }}</h2>
+                    <p class="mb-0 text-muted">Total Properties</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center h-100">
+                <div class="card-body p-4">
+                    <h1>⭐</h1>
+                    <h2 class="fw-bold">{{ total_reviews }}</h2>
+                    <p class="mb-0 text-muted">Total Reviews</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center h-100">
+                <div class="card-body p-4">
+                    <h1>❤</h1>
+                    <h2 class="fw-bold">{{ total_favorites }}</h2>
+                    <p class="mb-0 text-muted">Total Favorites</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 text-center h-100">
+                <div class="card-body p-4">
+                    <h1>📩</h1>
+                    <h2 class="fw-bold">{{ total_inquiries }}</h2>
+                    <p class="mb-0 text-muted">Property Inquiries</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 text-center h-100">
+                <div class="card-body p-4">
+                    <h1>💬</h1>
+                    <h2 class="fw-bold">{{ total_contact_messages }}</h2>
+                    <p class="mb-0 text-muted">Contact Messages</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                {% if most_viewed_property and most_viewed_property.image %}
+                    <img
+                        src="{{ most_viewed_property.image.url }}"
+                        class="card-img-top"
+                        style="height: 240px; object-fit: cover;"
+                        alt="{{ most_viewed_property.title }}"
+                    >
+                {% endif %}
+
+                <div class="card-body p-4">
+
+                    <h3 class="fw-bold mb-3">
+                        Most Viewed Property
+                    </h3>
+
+                    {% if most_viewed_property %}
+
+                        <h5 class="fw-bold">
+                            {{ most_viewed_property.title }}
+                        </h5>
+
+                        <p class="text-muted mb-2">
+                            {{ most_viewed_property.city }}
+                        </p>
+
+                        <p class="text-primary fw-bold mb-0">
+                            👁 {{ most_viewed_property.views }} Views
+                        </p>
+
+                    {% else %}
+
+                        <p class="text-muted">
+                            No data available.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                {% if most_favorited_property and most_favorited_property.image %}
+                    <img
+                        src="{{ most_favorited_property.image.url }}"
+                        class="card-img-top"
+                        style="height: 240px; object-fit: cover;"
+                        alt="{{ most_favorited_property.title }}"
+                    >
+                {% endif %}
+
+                <div class="card-body p-4">
+
+                    <h3 class="fw-bold mb-3">
+                        Most Favorited Property
+                    </h3>
+
+                    {% if most_favorited_property %}
+
+                        <h5 class="fw-bold">
+                            {{ most_favorited_property.title }}
+                        </h5>
+
+                        <p class="text-muted mb-2">
+                            {{ most_favorited_property.city }}
+                        </p>
+
+                        <p class="text-danger fw-bold mb-0">
+                            ❤ {{ most_favorited_property.favorite_count }} Favorites
+                        </p>
+
+                    {% else %}
+
+                        <p class="text-muted">
+                            No data available.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

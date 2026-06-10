@@ -1,0 +1,98 @@
+{% extends 'properties/base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h1 class="fw-bold text-center mb-2">
+        Real Estate Assistant
+    </h1>
+
+    <p class="text-muted text-center mb-5">
+        Ask questions about properties, rentals, sales and services.
+    </p>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-bold">
+                                Your Question
+                            </label>
+
+                            {{ form.question }}
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning"
+                        >
+                            Send Question
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            {% for message in chat_messages %}
+
+                <div class="card shadow-sm border-0 mb-3">
+
+                    <div class="card-body">
+
+                        <h6 class="fw-bold text-primary">
+                            You
+                        </h6>
+
+                        <p>
+                            {{ message.question }}
+                        </p>
+
+                        <hr>
+
+                        <h6 class="fw-bold text-success">
+                            Assistant
+                        </h6>
+
+                        <p class="mb-0">
+                            {{ message.answer }}
+                        </p>
+
+                        <small class="text-muted">
+                            {{ message.created_at|date:"d M Y H:i" }}
+                        </small>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <div class="alert alert-secondary">
+
+                    No chat messages yet.
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

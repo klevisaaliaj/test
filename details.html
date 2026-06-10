@@ -1,0 +1,441 @@
+{% extends 'properties/base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <img
+                src="{% if property.image %}{{ property.image.url }}{% else %}https://via.placeholder.com/600x400?text=No+Image{% endif %}"
+                class="img-fluid rounded shadow-sm mb-4 w-100"
+                alt="{{ property.title }}"
+            >
+
+            <h1 class="fw-bold mb-2">
+                {{ property.title }}
+            </h1>
+            
+            <p class="text-danger fw-bold">
+                ❤ {{ property.favorites.count }} Favorites
+            </p>
+
+            <p class="text-muted mb-4">
+                Added by:
+                {% if property.owner %}
+                    {{ property.owner.username }}
+                {% else %}
+                    Admin
+                {% endif %}
+
+                <br>
+
+                <small>
+                    Published: {{ property.created_at|date:"d M Y" }}
+                </small>
+            </p>
+
+            <p class="lead">
+                {{ property.description }}
+            </p>
+
+            <hr class="my-4">
+
+            <h3 class="fw-bold mb-4">
+                Property Information
+            </h3>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <p><strong>Location:</strong> {{ property.city }}</p>
+                    <p><strong>Property Type:</strong> {{ property.property_type }}</p>
+                    <p><strong>Listing:</strong> {{ property.listing_type }}</p>
+
+                    <p>
+                        <strong>Status:</strong>
+
+                        {% if property.status == "Available" %}
+                            <span class="badge bg-success">Available</span>
+                        {% elif property.status == "Rented" %}
+                            <span class="badge bg-primary">Rented</span>
+                        {% elif property.status == "Sold" %}
+                            <span class="badge bg-danger">Sold</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% endif %}
+                    </p>
+
+                    <p><strong>Size:</strong> {{ property.size }} m²</p>
+                    <p><strong>Year Built:</strong> {{ property.year_built }}</p>
+                </div>
+
+                <div class="col-md-6">
+
+                    {% if property.rooms %}
+                        <p><strong>Rooms:</strong> {{ property.rooms }}</p>
+                    {% endif %}
+
+                    {% if property.floor %}
+                        <p><strong>Floor:</strong> {{ property.floor }}</p>
+                    {% endif %}
+
+                    {% if property.floors %}
+                        <p><strong>Floors:</strong> {{ property.floors }}</p>
+                    {% endif %}
+
+                    <p>
+                        <strong>Elevator:</strong>
+                        {% if property.elevator %}Yes{% else %}No{% endif %}
+                    </p>
+
+                    <p>
+                        <strong>Parking:</strong>
+                        {% if property.parking %}Yes{% else %}No{% endif %}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <hr class="my-5">
+
+            <h2 class="fw-bold mb-4">
+                Client Reviews
+            </h2>
+
+            <div class="card border-0 shadow-sm text-center mb-4">
+
+                <div class="card-body py-4">
+
+                    <h1 class="fw-bold text-warning">
+                        {{ property.average_rating }}/5
+                    </h1>
+
+                    <p class="text-muted mb-0">
+                        Average client rating
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% for review in reviews %}
+
+                <div class="card border-0 shadow-sm mb-4">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+
+                            <h5 class="mb-0">
+                                {{ review.user.username }}
+                            </h5>
+
+                            <small class="text-muted">
+                                {{ review.created_at|date:"d M Y H:i" }}
+                            </small>
+
+                        </div>
+
+                        <p class="fw-bold text-warning mb-2">
+                            Rating: {{ review.rating }}/5 ★
+                        </p>
+
+                        <p class="mb-0">
+                            {{ review.comment }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <div class="alert alert-secondary">
+                    No reviews yet.
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="col-lg-4 mt-4 mt-lg-0">
+
+            <div class="card border-0 shadow-sm sticky-top">
+
+                <div class="card-body p-4">
+
+                    {% if property.listing_type == "Monthly Rent" %}
+
+                        <h2 class="fw-bold mb-3">
+                            €{{ property.price|floatformat:0|intcomma }} / month
+                        </h2>
+
+                    {% elif property.listing_type == "Daily Rent" %}
+
+                        <h2 class="fw-bold mb-3">
+                            €{{ property.price|floatformat:0|intcomma }} / night
+                        </h2>
+
+                    {% else %}
+
+                        <h2 class="fw-bold mb-3">
+                            €{{ property.price|floatformat:0|intcomma }}
+                        </h2>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <p>
+                        <strong>Listing Type:</strong>
+                        {{ property.listing_type }}
+                    </p>
+
+                    <p>
+                        <strong>Published:</strong>
+                        {{ property.created_at|date:"d M Y" }}
+                    </p>
+
+                    <p>
+                        <strong>Added by:</strong>
+                        {% if property.owner %}
+                            {{ property.owner.username }}
+                        {% else %}
+                            Admin
+                        {% endif %}
+                    </p>
+
+                    <div class="d-grid gap-2 mt-3">
+
+                        <a
+                            href="/properties/"
+                            class="btn btn-outline-dark"
+                        >
+                            Back to Properties
+                        </a>
+
+                        {% if user.is_authenticated and not user.is_staff %}
+
+                            <a
+                                href="{% url 'toggle_favorite' property.id %}"
+                                class="btn btn-danger"
+                            >
+
+                                {% if user in property.favorites.all %}
+                                    ❤ Remove Favorite
+                                {% else %}
+                                    🤍 Add to Favorites
+                                {% endif %}
+
+                            </a>
+
+                        {% endif %}
+
+                        {% if user == property.owner or user.is_superuser %}
+
+                            <a
+                                href="{% url 'edit_property' property.id %}"
+                                class="btn btn-warning"
+                            >
+                                Edit Property
+                            </a>
+
+                            <a
+                                href="{% url 'delete_property' property.id %}"
+                                class="btn btn-danger"
+                            >
+                                Delete Property
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<section class="container pb-5" style="max-width: 900px;">
+
+    <hr class="my-5">
+
+    {% if user.is_authenticated and not user.is_staff %}
+
+        {% if property.status == "Available" or property.status == "Pending" %}
+
+            <div class="card border-0 shadow-sm mb-5">
+
+                <div class="card-body p-4">
+
+                    <h3 class="fw-bold mb-3">
+                        Property Inquiry
+                    </h3>
+
+                    <p class="text-muted mb-4">
+                        Send a message if you are interested in this property.
+                    </p>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="send_inquiry"
+                            value="1"
+                        >
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Name
+                            </label>
+
+                            {{ inquiry_form.name }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Email
+                            </label>
+
+                            {{ inquiry_form.email }}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Message
+                            </label>
+
+                            {{ inquiry_form.message }}
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark"
+                        >
+                            Send Inquiry
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-danger">
+
+                This property is currently {{ property.status }}.
+
+                New inquiries are not accepted for this property.
+
+            </div>
+
+        {% endif %}
+
+    {% endif %}
+
+    <h2 class="fw-bold mb-4">
+        Leave a Review
+    </h2>
+
+    {% if user.is_authenticated and not user.is_staff %}
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+
+                        <div class="alert alert-danger">
+
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <p class="mb-1">
+                                        {{ error }}
+                                    </p>
+                                {% endfor %}
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            Rating
+                        </label>
+
+                        {{ form.rating }}
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Comment
+                        </label>
+
+                        {{ form.comment }}
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-warning px-4"
+                    >
+                        Submit Review
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    {% elif user.is_staff %}
+
+        <div class="alert alert-secondary">
+            Admin accounts cannot leave reviews or send property inquiries.
+        </div>
+
+    {% elif not user.is_authenticated %}
+
+        <div class="alert alert-warning">
+
+            You must login to leave a review or send an inquiry.
+
+            <a href="{% url 'login' %}">
+                Login here
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
